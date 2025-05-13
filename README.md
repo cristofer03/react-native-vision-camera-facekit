@@ -1,72 +1,116 @@
-# vision-camera-face-detector-v4
+# react-native-vision-camera-facekit
 
-![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/vision-camera-trustee-face-detector-v3.svg)](https://www.npmjs.com/package/vision-camera-trustee-face-detector-v3)
+![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+[![npm version](https://badge.fury.io/js/react-native-vision-camera-facekit.svg)](https://www.npmjs.com/package/react-native-vision-camera-facekit)
 
 ## Description
 
-`vision-camera-face-detector-v4` is a React Native library that integrates with the Vision Camera module to provide face detection functionality. It allows you to easily detect faces in real-time using the front camera and visualize the detected faces on the screen.
+`react-native-vision-camera-facekit` is a React Native Frame Processor Plugin for Vision Camera v4 that provides cross-platform face detection functionality. It supports:
+
+* Android via MLKit Vision Face Detector
+* iOS via Apple Vision Framework
+* Real-time face detection using the device camera
+* Configurable detection options (performance, landmarks, contours, classification, minimum face size, tracking)
 
 ## Features
 
-- Real-time face detection using the front camera
-- Integration with the Vision Camera module
-- Adjustable face visualization with customizable styles
-- Convert frame to base64
+* High-performance, native JSI-based frame processors
+* Flexible options for speed vs. accuracy
+* Contour and landmark extraction
+* Face tracking (optional)
 
 ## Installation
 
 ```bash
-yarn add vision-camera-face-detector-v4
+# yarn
+yarn add react-native-vision-camera-facekit
+
+# or npm
+npm install react-native-vision-camera-facekit --save
+```
+
+Then install pods (iOS):
+
+```bash
+cd ios && pod install && cd ..
 ```
 
 ## Usage
 
-```jsx
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+```tsx
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import {
   Camera,
   useCameraDevice,
   useFrameProcessor,
 } from 'react-native-vision-camera';
-import { scanFaces } from 'vision-camera-face-detector-v4';
-import { Worklets } from 'react-native-worklets-core';
+import { scanFaces } from 'react-native-vision-camera-facekit';
+import { runOnJS } from 'react-native-reanimated';
 
 export default function App() {
   const device = useCameraDevice('front');
+  const [faces, setFaces] = React.useState([]);
 
   React.useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
-      console.log({ status });
+      console.log('Camera permission:', status);
     })();
-  }, [device]);
+  }, []);
 
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet';
-
     try {
-      const scannedFaces = scanFaces(frame, {});
-      console.log(scannedFaces?.faces);
-    } catch (error) {
-      console.error({ error });
+      const detected = scanFaces(frame, {
+        performanceMode: 'fast',
+        classificationMode: 'all',
+        contourMode: 'all',
+        landmarkMode: 'all',
+        minFaceSize: 0.1,
+        trackingEnabled: false,
+      });
+      runOnJS(setFaces)(detected);
+    } catch (e) {
+      console.error('scanFaces error', e);
     }
   }, []);
 
-  if (device == null) return <Text>No Device</Text>;
-  if (device) {
-    return (
-      <View style={{ position: 'relative', flex: 1 }}>
-        <Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={!!device}
-          frameProcessor={frameProcessor}
-          //pixel format should be either yuv or rgb
-          pixelFormat="yuv"
-        />
-      </View>
-    );
+  if (!device) {
+    return <Text>Loading camera...</Text>;
   }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Camera
+        style={StyleSheet.absoluteFill}
+        device={device}
+        isActive={true}
+        frameProcessor={frameProcessor}
+        frameProcessorFps={5}
+        photo={false}
+      />
+    </View>
+  );
 }
 ```
+
+## API
+
+### `scanFaces(frame: Frame, options?: FaceDetectionOptions): Face[]`
+
+* **frame**: `Frame` from Vision Camera
+* **options** (all optional):
+
+  * `performanceMode`: `'fast' | 'accurate'` (default `'fast'`)
+  * `landmarkMode`: `'none' | 'all'` (default `'none'`)
+  * `contourMode`: `'none' | 'all'` (default `'none'`)
+  * `classificationMode`: `'none' | 'all'` (default `'none'`)
+  * `minFaceSize`: `number` (default `0.1`)
+  * `trackingEnabled`: `boolean` (default `false`)
+
+**Returns**: Array of `Face` objects with bounds, angles, probabilities, contours, and landmarks.
+
+## License
+
+MIT © Cristofer Feliz

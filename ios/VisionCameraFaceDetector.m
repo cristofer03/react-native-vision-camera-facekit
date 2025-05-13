@@ -7,13 +7,14 @@
 #import <VisionCameraCodeScanner/VisionCameraFaceDetector-Swift.h>
 #endif
 
-@implementation RegisterPlugins
+@implementation VisionCameraFaceDetector
 
-    + (void) load {
-        [FrameProcessorPluginRegistry addFrameProcessorPlugin:@"detectFaces"
-                                              withInitializer:^FrameProcessorPlugin*(NSDictionary* options) {
-            return [[VisionCameraFaceDetector alloc] init];
-        }];
-    }
++ (void)load {
+    // Registration for JS/iOS plugin name
+    [FrameProcessorPluginRegistry addFrameProcessorPlugin:@"scanFaces"
+                                          withInitializer:^FrameProcessorPlugin*(NSDictionary* options) {
+        return [[VisionCameraFaceDetector alloc] init];
+    }];
+}
 
 @end

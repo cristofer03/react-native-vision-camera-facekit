@@ -1,6 +1,6 @@
 import { VisionCameraProxy, type Frame } from 'react-native-vision-camera';
 
-const plugin = VisionCameraProxy.initFrameProcessorPlugin('detectFaces');
+const plugin = VisionCameraProxy.initFrameProcessorPlugin('scanFaces', {});
 
 /**
  * Scans Faces.
@@ -104,11 +104,16 @@ export interface FaceDetectionOptions {
   trackingEnabled?: boolean;
 }
 
-export function scanFaces(frame: Frame, options?: FaceDetectionOptions): Face {
+export interface ScanFacesResult {
+  faces: Face[];
+  frameData: string;
+}
+
+export function scanFaces(frame: Frame, options?: FaceDetectionOptions): ScanFacesResult {
   'worklet';
   if (plugin == null) {
     throw new Error('Failed to load Frame Processor Plugin "scanFaces"!');
   }
   // @ts-ignore
-  return plugin.call(frame, options);
+  return plugin.call(frame, options) as ScanFacesResult;
 }

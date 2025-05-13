@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "vision-camera-face-detector-v4": ["./src/index"]
+      "react-native-vision-camera-facekit": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

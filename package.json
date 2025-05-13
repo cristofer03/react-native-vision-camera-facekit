@@ -1,47 +1,45 @@
 {
-  "name": "vision-camera-face-detector-v4",
-  "version": "1.0.2",
-  "description": "VisionCamera Frame Processor Plugin to detect faces using MLKit Vision Face Detector for react native vision camera V4",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
+  "name": "react-native-vision-camera-facekit",
+  "version": "1.0.0",
+  "description": "VisionCamera Frame Processor Plugin to detect faces using MLKit Vision Face Detector and Apple Vision Camera for React Native Vision Camera v4",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
     "src",
     "lib",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__",
     "android",
     "ios",
     "cpp",
-    "VisionCameraFaceDetector.podspec",
-    "!android/build",
-    "!ios/build"
+    "VisionCameraFaceKit.podspec"
   ],
   "scripts": {
-    "test": "jest",
-    "typescript": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "bob build",
     "prepare": "bob build",
+    "test": "jest",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "typescript": "tsc --noEmit",
     "release": "release-it"
   },
   "keywords": [
     "react-native",
-    "ios",
-    "android"
+    "vision-camera",
+    "face-detector",
+    "apple-vision",
+    "mlkit"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/matrix2305/vision-camera-face-detector-v4"
+    "url": "https://github.com/cristofer03/react-native-vision-camera-facekit.git"
   },
-  "author": "Tarik",
+  "author": "Cristofer Feliz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/matrix2305/vision-camera-face-detector-v4"
+    "url": "https://github.com/cristofer03/react-native-vision-camera-facekit/issues"
   },
-  "homepage": "https://github.com/matrix2305/vision-camera-face-detector-v4",
+  "homepage": "https://github.com/cristofer03/react-native-vision-camera-facekit#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -53,7 +51,6 @@
     "@types/jest": "^29.5.3",
     "@types/react": "^18.2.18",
     "@types/react-native": "^0.72.2",
-    "commitlint": "^17.6.7",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.9.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -62,22 +59,22 @@
     "pod-install": "^0.1.38",
     "prettier": "^3.0.0",
     "react": "^18.2.0",
-    "react-native": "^0.72.3",
+    "react-native": "^0.75.4",
     "react-native-builder-bob": "^0.21.3",
-    "react-native-vision-camera": "^3.5.1",
-    "react-native-worklets-core": "^0.2.0",
+    "react-native-vision-camera": "^4.6.4",
+    "react-native-worklets-core": "^1.5.0",
     "release-it": "^16.1.3",
     "typescript": "^5.1.6"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*",
-    "react-native-vision-camera": "*"
+    "react": "^18.0.0",
+    "react-native": "^0.75.0",
+    "react-native-vision-camera": "^4.0.0"
   },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
-      "<rootDir>/lib/"
+      "/lib/"
     ]
   },
   "release-it": {
@@ -86,7 +83,7 @@
       "tagName": "v${version}"
     },
     "npm": {
-      "publish": false
+      "publish": true
     },
     "github": {
       "release": false
@@ -134,5 +131,11 @@
   "packageManager": "yarn@3.5.0",
   "directories": {
     "lib": "lib"
+  },
+  "podspec": "react-native-vision-camera-facekit.podspec",
+  "rnpm": {
+    "ios": {
+      "podspecPath": "react-native-vision-camera-facekit.podspec"
+    }
   }
 }
