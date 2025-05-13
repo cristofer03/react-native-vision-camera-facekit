@@ -1,6 +1,6 @@
-#import <VisionCamera/FrameProcessorPlugin.h>
-#import <VisionCamera/FrameProcessorPluginRegistry.h>
+//  RegisterPlugins.h
+#import <Foundation/Foundation.h>
+#import <VisionCamera/FrameProcessorPluginRegistry.h> // solo para poder llamar al registry
 
-@interface VisionCameraFaceDetector : FrameProcessorPlugin
-
+@interface RegisterPlugins : NSObject
 @end

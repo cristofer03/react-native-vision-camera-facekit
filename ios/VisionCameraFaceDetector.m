@@ -1,20 +1,24 @@
 #import <Foundation/Foundation.h>
 #import "VisionCameraFaceDetector.h"
 
-#if defined __has_include && __has_include("VisionCameraFaceDetector-Swift.h")
+// 1) Header Swift autogenerado ─ versión “local” vs “módulo”.
+#if __has_include("VisionCameraFaceDetector-Swift.h")
 #import "VisionCameraFaceDetector-Swift.h"
 #else
-#import <VisionCameraCodeScanner/VisionCameraFaceDetector-Swift.h>
+// Sustituye YourPodName por el s.module_name (o s.name) de tu .podspec
+#import <react_native_vision_camera_facekit/VisionCameraFaceDetector-Swift.h>
 #endif
 
-@implementation VisionCameraFaceDetector
+// 2) La clase puede llamarse como quieras; aquí la dejamos como RegisterPlugins
+@implementation RegisterPlugins
 
 + (void)load {
-    // Registration for JS/iOS plugin name
-    [FrameProcessorPluginRegistry addFrameProcessorPlugin:@"scanFaces"
-                                          withInitializer:^FrameProcessorPlugin*(NSDictionary* options) {
-        return [[VisionCameraFaceDetector alloc] init];
-    }];
+  // 3) Asegúrate de usar EXACTAMENTE la misma key que usas en JS:
+  //    frameProcessorPlugins.detectFaces(frame, options)
+  [FrameProcessorPluginRegistry addFrameProcessorPlugin:@"detectFaces"
+                                        withInitializer:^FrameProcessorPlugin * (NSDictionary *options) {
+    return [VisionCameraFaceDetector new];
+  }];
 }
 
 @end
