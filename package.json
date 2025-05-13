@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "VisionCameraFaceKit.podspec"
+    "react-native-vision-camera-facekit.podspec"
   ],
   "scripts": {
     "build": "bob build",
